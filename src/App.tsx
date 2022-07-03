@@ -1,24 +1,23 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import "./test";
 
 function App() {
+  // useEffect(() => {
+  //   const iframe = document.querySelector("#iframe")!;
+
+  //   console.log(iframe);
+  //   console.log(countMatches(iframe));
+  // }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div id="iframe">
+        What's Up
+        <div>Hello World</div>
+        <div>Goodbye World</div>
+      </div>
     </div>
   );
 }
