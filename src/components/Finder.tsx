@@ -20,11 +20,11 @@ export const Finder = () => {
         <span className="font-medium text-dark-gray text-sm">0/0</span>
 
         <div className="flex items-center gap-1">
-          <div className="arrow-container flex items-center bg-secondary rounded-md">
+          <div className="arrow-container flex items-stretch bg-secondary rounded-md h-full">
             <button className="p-1">
               <ArrowUpIcon className="w-4 h-4 stroke-2 stroke-dark-gray" />
             </button>
-            <div />
+            <div className="self-stretch w-[1px] bg-[#4d4d4d]" />
             <button className="p-1">
               <ArrowDownIcon className="w-4 h-4 stroke-2 stroke-dark-gray" />
             </button>
