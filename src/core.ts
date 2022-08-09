@@ -55,7 +55,7 @@ const loopMatchesWithCallback = (
   );
 };
 
-const reduceMatches = <T>(
+export const reduceMatches = <T>(
   node: Node,
   instance: string,
   reducer: (prev: T, curr: [Node, [number, number]]) => T,
@@ -115,31 +115,31 @@ setTimeout(() => {
     []
   );
 
-  matches.forEach(([node, range]) => {
-    console.log(node, range);
+  // matches.forEach(([node, range]) => {
+  //   console.log(node, range);
 
-    // find position on the screen
-    const rangeObject = document.createRange();
+  //   // find position on the screen
+  //   const rangeObject = document.createRange();
 
-    rangeObject.setStart(node, range[0]);
-    rangeObject.setEnd(node, range[1]);
+  //   rangeObject.setStart(node, range[0]);
+  //   rangeObject.setEnd(node, range[1]);
 
-    const rect = rangeObject.getBoundingClientRect();
+  //   const rect = rangeObject.getBoundingClientRect();
 
-    const highlight = document.createElement("div");
+  //   const highlight = document.createElement("div");
 
-    highlight.style.height = `${rect.height}px`;
-    highlight.style.width = `${rect.width}px`;
-    highlight.style.background = `#FEFF00`;
-    highlight.style.position = "absolute";
-    highlight.style.top = `${rect.top}px`;
-    highlight.style.left = `${rect.left}px`;
-    highlight.style.zIndex = "-1";
+  //   highlight.style.height = `${rect.height}px`;
+  //   highlight.style.width = `${rect.width}px`;
+  //   highlight.style.background = `#FEFF00`;
+  //   highlight.style.position = "absolute";
+  //   highlight.style.top = `${rect.top}px`;
+  //   highlight.style.left = `${rect.left}px`;
+  //   highlight.style.zIndex = "-1";
 
-    console.log(rect);
+  //   console.log(rect);
 
-    document.documentElement.appendChild(highlight);
-  });
+  //   document.documentElement.appendChild(highlight);
+  // });
 
   //   console.log(iframe);
   //   console.log(countMatches(iframe, "o"));
