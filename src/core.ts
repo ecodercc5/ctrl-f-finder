@@ -1,4 +1,5 @@
 export type Range = [number, number];
+export type Match = [Node, Range];
 
 // count how many times instance appears in str
 const countInstancesFromString = (str: string, instance: string) => {
@@ -58,7 +59,7 @@ const loopMatchesWithCallback = (
 export const reduceMatches = <T>(
   node: Node,
   instance: string,
-  reducer: (prev: T, curr: [Node, [number, number]]) => T,
+  reducer: (prev: T, curr: Match) => T,
   initial: T
 ): T => {
   const indices = isTextNode(node)
@@ -92,7 +93,7 @@ const getMatchIndices = (str: string, instance: string) => {
     const substring = str.substring(start, end);
 
     // found a match
-    if (substring === instance) {
+    if (substring.toLowerCase() === instance.toLowerCase()) {
       indices.push([start, end]);
       i = end - 1;
     }
@@ -101,53 +102,43 @@ const getMatchIndices = (str: string, instance: string) => {
   return indices;
 };
 
-setTimeout(() => {
-  const iframe = document.querySelector("#iframe")!;
+export const getMatches = (element: HTMLElement, search: string): Match[] => {
+  if (search === "") {
+    return [];
+  }
 
-  //   loopMatchesWithCallback(iframe, "World", (textNode, range) => {
-  //     console.log(textNode, range);
-  //   });
-
-  const matches = reduceMatches<[Node, [number, number]][]>(
-    iframe,
-    "World",
-    (curr, [node, range]) => [...curr, [node, range]],
+  return reduceMatches<[Node, [number, number]][]>(
+    element,
+    search,
+    (curr, match) => [...curr, match],
     []
   );
+};
 
-  // matches.forEach(([node, range]) => {
-  //   console.log(node, range);
+interface IDimensions {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
 
-  //   // find position on the screen
-  //   const rangeObject = document.createRange();
+export const getHighlightDimensions = (
+  textNode: Node,
+  range: [number, number]
+): IDimensions => {
+  const rangeObject = document.createRange();
 
-  //   rangeObject.setStart(node, range[0]);
-  //   rangeObject.setEnd(node, range[1]);
+  rangeObject.setStart(textNode, range[0]);
+  rangeObject.setEnd(textNode, range[1]);
 
-  //   const rect = rangeObject.getBoundingClientRect();
+  const rect = rangeObject.getBoundingClientRect();
 
-  //   const highlight = document.createElement("div");
+  const { top: y, left: x, height, width } = rect;
 
-  //   highlight.style.height = `${rect.height}px`;
-  //   highlight.style.width = `${rect.width}px`;
-  //   highlight.style.background = `#FEFF00`;
-  //   highlight.style.position = "absolute";
-  //   highlight.style.top = `${rect.top}px`;
-  //   highlight.style.left = `${rect.left}px`;
-  //   highlight.style.zIndex = "-1";
-
-  //   console.log(rect);
-
-  //   document.documentElement.appendChild(highlight);
-  // });
-
-  //   console.log(iframe);
-  //   console.log(countMatches(iframe, "o"));
-  //   const words = "aaaa";
-
-  //   console.log(getMatchIndices(words, "aa"));
-
-  //   console.log(countInstancesFromString("aaaa", "aa"));
-}, 100);
-
-export {};
+  return {
+    x,
+    y,
+    height,
+    width,
+  };
+};
