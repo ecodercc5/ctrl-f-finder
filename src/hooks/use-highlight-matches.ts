@@ -9,22 +9,37 @@ export const useHighlightMatches = <T extends HTMLElement>(
   const [activeIndex, setActiveIndex] = useState(-1);
 
   useEffect(() => {
-    const element = ref.current!;
+    const getAndSetMatches = (shouldModifyActiveIndex: boolean = true) => {
+      const element = ref.current!;
+      // search for matches in the HTMLElement
+      const matches = getMatches(element, search);
 
-    // search for matches in the HTMLElement
-    const matches = getMatches(element, search);
+      if (shouldModifyActiveIndex) {
+        if (matches.length) {
+          // at least 1 match
+          setActiveIndex(0);
+        } else {
+          // no matches
+          setActiveIndex(-1);
+        }
+      }
 
-    if (matches.length) {
-      // at least 1 match
-      setActiveIndex(0);
-    } else {
-      // no matches
-      setActiveIndex(-1);
+      setMatches(matches);
+
+      return matches;
+    };
+
+    const currentMatches = getAndSetMatches();
+
+    if (currentMatches.length) {
+      const handleResize = () => getAndSetMatches();
+
+      // recalculate matches if dom resizes
+      window.addEventListener("resize", handleResize);
+
+      // cleanup
+      return () => window.removeEventListener("resize", handleResize);
     }
-
-    setMatches(matches);
-
-    console.log(matches);
   }, [search, ref]);
 
   // derived data about matches
