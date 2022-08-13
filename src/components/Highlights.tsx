@@ -1,6 +1,6 @@
 import React from "react";
-import { Highlight } from "./components/Highlight";
-import { getHighlightDimensions, Match } from "./core";
+import { Highlight } from "./Highlight";
+import { getHighlightDimensions, Match } from "../core";
 
 interface Props {
   matches: Match[];

@@ -4,15 +4,17 @@ import {
   ArrowDownIcon,
   XIcon,
 } from "@heroicons/react/outline";
+import { Button } from "./Button";
+import { motion } from "framer-motion";
 
 interface Props {
   search: string;
-  onSearchChange: (search: string) => any;
+  onSearchChange?: (search: string) => any;
   numMatches: number;
   currentMatch: number;
-  onDown: () => any;
-  onUp: () => any;
-  onClear: () => any;
+  onDown?: () => any;
+  onUp?: () => any;
+  onClose?: () => any;
 }
 
 export const Finder: React.FC<Props> = ({
@@ -22,7 +24,7 @@ export const Finder: React.FC<Props> = ({
   currentMatch,
   onUp,
   onDown,
-  onClear,
+  onClose,
 }) => {
   return (
     <div
@@ -34,7 +36,7 @@ export const Finder: React.FC<Props> = ({
         <input
           className="bg-transparent text-main-gray outline-none text-sm"
           value={search}
-          onChange={(e) => onSearchChange(e.target.value)}
+          onChange={(e) => onSearchChange && onSearchChange(e.target.value)}
         />
       </div>
 
@@ -44,19 +46,21 @@ export const Finder: React.FC<Props> = ({
         </span>
 
         <div className="flex items-center gap-1">
-          <div className="arrow-container flex items-stretch bg-secondary rounded-md h-full">
-            <button className="p-1" onClick={onUp}>
-              <ArrowUpIcon className="w-4 h-4 stroke-2 stroke-dark-gray" />
-            </button>
+          <div className="arrow-container flex items-stretch bg-secondary rounded-md h-full overflow-hidden">
+            <Button icon={ArrowUpIcon} onClick={onUp} />
             <div className="self-stretch w-[1px] bg-[#4d4d4d]" />
-            <button className="p-1" onClick={onDown}>
-              <ArrowDownIcon className="w-4 h-4 stroke-2 stroke-dark-gray" />
-            </button>
+            <Button icon={ArrowDownIcon} onClick={onDown} />
           </div>
 
-          <button className="p-1" onClick={onClear}>
+          <motion.button
+            className="p-1 rounded-md"
+            onClick={onClose}
+            whileHover={{ backgroundColor: "#4D4D4D" }}
+            whileTap={{ opacity: 0.8 }}
+            transition={{ duration: 0.15 }}
+          >
             <XIcon className="w-4 h-4 stroke-3 stroke-secondary-gray" />
-          </button>
+          </motion.button>
         </div>
       </div>
     </div>
